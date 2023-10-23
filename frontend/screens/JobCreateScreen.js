@@ -103,7 +103,7 @@ const JobCreateScreen = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} enabled>
+            <KeyboardAvoidingView>
                 <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                     <View style={styles.headerView}>
                         <Text style={styles.headerText}>Create JobPost</Text>

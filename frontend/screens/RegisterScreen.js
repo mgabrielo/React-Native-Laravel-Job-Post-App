@@ -75,7 +75,7 @@ const RegisterScreen = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior="height" enabled>
+            <KeyboardAvoidingView style={{ flex: 1 }} >
                 <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                     <View style={styles.headerView}>
                         <Text style={styles.welcomeView}>

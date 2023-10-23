@@ -134,7 +134,7 @@ const JobEditScreen = () => {
 
     return (
         <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
-            <KeyboardAvoidingView style={styles.keyboardView} behavior="height" enabled>
+            <KeyboardAvoidingView style={styles.keyboardView} >
                 <View style={{ marginTop: 50, gap: 15 }}>
                     <View>
                         <Text style={styles.label}>Title</Text>
