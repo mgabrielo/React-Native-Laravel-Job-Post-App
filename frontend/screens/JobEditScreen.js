@@ -87,6 +87,13 @@ const JobEditScreen = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (formData.title == '' || formData.description == '' || formData.company == '' || formData.salary == null) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'All fields must be Filled'
+                })
+                return;
+            }
             dispatch(newJobPostUpdateStart())
             const authToken = currentUser.token
             await axios.put(`${BASE_URL}/api/jobs/${id}`, formData, {
@@ -129,6 +136,7 @@ const JobEditScreen = () => {
 
     const cancelJobPost = () => {
         setFormData({})
+        hideDialog()
         navigation.navigate('JobListTab')
     }
 

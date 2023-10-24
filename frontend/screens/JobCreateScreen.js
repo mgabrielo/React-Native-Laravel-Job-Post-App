@@ -54,6 +54,15 @@ const JobCreateScreen = () => {
         e.preventDefault();
 
         try {
+
+            if (formData.title == '' || formData.description == '' || formData.company == '' || formData.salary == null) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'All fields must be Filled'
+                })
+                return;
+            }
+
             dispatch(newJobPostAddStart())
             const authToken = currentUser.token
             await axios.post(`${BASE_URL}/api/jobs`, formData, {
@@ -98,6 +107,7 @@ const JobCreateScreen = () => {
 
     const cancelJobPost = () => {
         setFormData({})
+        hideDialog()
         navigation.navigate('JobListTab')
     }
 
