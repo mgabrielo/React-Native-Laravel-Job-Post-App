@@ -8,6 +8,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import DialogBox from '../components/Dialog';
 import Toast from 'react-native-toast-message';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
     newJobPostDetailFailure,
     newJobPostDetailStart,
@@ -24,14 +25,18 @@ const JobEditScreen = () => {
     const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL
     const { currentUser } = useSelector((state) => state.user)
     const { jobPostLoading, errorjobPost } = useSelector((state) => state.newJobPost)
-    const date = new Date();
-    const formattedDate = format(date, 'Y-m-d');
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const currentDate = new Date();
+    const formattedDate = format(selectedDate, 'yyyy-MM-dd');
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         salary: '',
         company: '',
-        postedAt: formattedDate
+        postedAt: null
     });
     const dispatch = useDispatch()
     const [isDialogVisible, setDialogVisible] = useState(false);
@@ -96,7 +101,7 @@ const JobEditScreen = () => {
             }
             dispatch(newJobPostUpdateStart())
             const authToken = currentUser.token
-            await axios.put(`${BASE_URL}/api/jobs/${id}`, formData, {
+            await axios.put(`${BASE_URL}/api/jobs/${id}`, { ...formData, postedAt: formattedDate }, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                     'Accept': 'application/json',
@@ -141,10 +146,26 @@ const JobEditScreen = () => {
         navigation.navigate('JobListTab')
     }
 
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        if (date >= currentDate) {
+            setSelectedDate(date);
+        }
+
+        hideDatePicker();
+    };
+
     return (
         <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView style={styles.keyboardView} >
-                <View style={{ marginTop: 50, gap: 15 }}>
+                <View style={{ marginTop: 20, gap: 5 }}>
                     <View>
                         <Text style={styles.label}>Title</Text>
                         <TextInput
@@ -188,6 +209,21 @@ const JobEditScreen = () => {
                             value={formData.company}
                             onChangeText={(text) => setFormData({ ...formData, company: text })}
                             style={styles.input}
+                        />
+                    </View>
+                    <View>
+                        <Pressable style={styles.dateButton} onPress={showDatePicker} >
+                            <Text style={[styles.label, { color: '#fff', textAlign: 'center' }]}>
+                                Selected Posting Date: {format(selectedDate, 'd-M-y')}
+                            </Text>
+                        </Pressable>
+
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            minimumDate={currentDate}
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
                         />
                     </View>
                 </View>
@@ -304,5 +340,11 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: '700'
-    }
+    },
+    dateButton: {
+        backgroundColor: '#003580',
+        marginVertical: 5,
+        paddingVertical: 10,
+        borderRadius: 10
+    },
 })

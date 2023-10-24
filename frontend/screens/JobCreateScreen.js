@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { newJobPostAddFailure, newJobPostAddStart, newJobPostAddSuccess } from '../redux/newJobPost/newJobPostSlice';
 import DialogBox from '../components/Dialog';
 import Toast from 'react-native-toast-message';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const JobCreateScreen = () => {
     const navigation = useNavigation();
@@ -17,8 +18,10 @@ const JobCreateScreen = () => {
     const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL
     const { currentUser } = useSelector((state) => state.user)
     const { jobPostLoading, errorjobPost } = useSelector((state) => state.newJobPost)
-    const date = new Date();
-    const formattedDate = format(date, 'd-M-y');
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const currentDate = new Date();
+    const formattedDate = format(selectedDate, 'd-M-y');
 
     const [formData, setFormData] = useState({
         title: '',
@@ -112,6 +115,22 @@ const JobCreateScreen = () => {
         navigation.navigate('JobListTab')
     }
 
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        if (date >= currentDate) {
+            setSelectedDate(date);
+        }
+
+        hideDatePicker();
+    };
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <KeyboardAvoidingView>
@@ -120,7 +139,7 @@ const JobCreateScreen = () => {
                         <Text style={styles.headerText}>Create JobPost</Text>
                     </View>
 
-                    <View style={{ marginTop: 50, gap: 15 }}>
+                    <View style={{ marginTop: 5, gap: 5 }}>
                         <View>
                             <Text style={styles.label}>Title</Text>
                             <TextInput
@@ -164,6 +183,21 @@ const JobCreateScreen = () => {
                                 value={formData.company}
                                 onChangeText={(text) => setFormData({ ...formData, company: text })}
                                 style={styles.input}
+                            />
+                        </View>
+                        <View>
+                            <Pressable style={styles.dateButton} onPress={showDatePicker} >
+                                <Text style={[styles.label, { color: '#fff', textAlign: 'center' }]}>
+                                    Selected Posting Date: {format(selectedDate, 'd-M-y')}
+                                </Text>
+                            </Pressable>
+
+                            <DateTimePickerModal
+                                isVisible={isDatePickerVisible}
+                                mode="date"
+                                minimumDate={currentDate}
+                                onConfirm={handleConfirm}
+                                onCancel={hideDatePicker}
                             />
                         </View>
                     </View>
@@ -251,7 +285,7 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 10,
+        padding: 5,
         alignItems: 'center'
     },
     cancel: {
@@ -259,6 +293,12 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#003580',
         textAlign: 'center'
+    },
+    dateButton: {
+        backgroundColor: '#003580',
+        marginVertical: 5,
+        paddingVertical: 10,
+        borderRadius: 10
     },
     cancelPress: {
         width: 200,
