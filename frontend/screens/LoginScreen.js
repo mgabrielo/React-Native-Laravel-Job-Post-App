@@ -211,13 +211,14 @@ const styles = StyleSheet.create({
     },
     welcomeView: {
         color: '#003580',
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '700'
     },
     continueView: {
         marginTop: 15,
         fontWeight: '500',
-        fontSize: 15
+        fontSize: 18,
+        color: '#808080'
     },
     headerView: {
         justifyContent: 'center',
