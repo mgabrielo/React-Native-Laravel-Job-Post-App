@@ -41,7 +41,6 @@ class AuthController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'user_id' => $user->id,
                     'username' => $user->name,
                     'email' => $user->email,
                     'message' => 'Registration Successful'

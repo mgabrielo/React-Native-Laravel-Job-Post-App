@@ -20,11 +20,10 @@ class AuthControllerTest extends TestCase
 
         $response = $this->json('POST', '/api/register', $userData);
         $response->assertStatus(200);
-        $response->assertJsonStructure(['status', 'user_id', 'username', 'email', 'message']);
+        $response->assertJsonStructure(['status',  'username', 'email', 'message']);
 
         $response->assertJson([
             'status' => 200,
-            'user_id' => 6,
             'username' => 'John Doe',
             'email' => 'johndoe@example.com',
             'message' => 'Registration Successful'
