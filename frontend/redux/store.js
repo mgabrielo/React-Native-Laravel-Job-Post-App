@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    version: 2
+    version: 3
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -24,3 +24,5 @@ export const store = configureStore({
 })
 
 export const persistor = persistStore(store);
+
+persistor.purge();

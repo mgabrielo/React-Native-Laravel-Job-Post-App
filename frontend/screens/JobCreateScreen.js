@@ -17,15 +17,13 @@ const JobCreateScreen = () => {
     const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL
     const { currentUser } = useSelector((state) => state.user)
     const { jobPostLoading, errorjobPost } = useSelector((state) => state.newJobPost)
-    const date = new Date();
-    const postedDate = format(date, 'd-M-y');
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         salary: '',
         company: '',
-        postedAt: postedDate,
+        postedAt: format(new Date(), 'd-M-y'),
         user_id: currentUser.user_id
     });
 

@@ -68,7 +68,7 @@ const JobDetailScreen = () => {
     }, [id])
 
     const handleDelete = async () => {
-
+        hideDialog()
         const authToken = currentUser.token
         try {
             dispatch(newJobPostDeleteStart())

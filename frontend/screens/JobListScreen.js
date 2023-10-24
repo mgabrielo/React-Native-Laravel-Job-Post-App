@@ -21,6 +21,7 @@ const JobListScreen = () => {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
 
+
   const getJobs = async () => {
     try {
       if (jobPostLoading) {
@@ -89,6 +90,7 @@ const JobListScreen = () => {
   };
 
   const logout = async () => {
+
     try {
       dispatch(signOutUserStart())
       hideDialog()

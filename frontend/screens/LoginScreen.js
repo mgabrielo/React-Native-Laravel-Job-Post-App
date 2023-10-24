@@ -46,7 +46,7 @@ const LoginScreen = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (formData.email == '' || formData.password == '') {
+            if (formData.email == null || formData.password == null) {
                 Toast.show({
                     type: 'error',
                     text1: 'All fields must be filled'
