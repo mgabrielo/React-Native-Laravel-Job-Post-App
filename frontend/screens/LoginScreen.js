@@ -70,13 +70,14 @@ const LoginScreen = () => {
                     } else {
                         dispatch(signInFailure(data.message))
                     }
-                }).catch(() => {
-                    dispatch(signInFailure('Error Logging in, Connect to NetWork and Try Again'))
+                }).catch((err) => {
+                    dispatch(signInFailure(err.message))
                 })
+            }).catch((err) => {
+                dispatch(signInFailure(err.message))
             })
 
         } catch (error) {
-            dispatch(signInFailure('Error Logging in, Connect to NetWork and Try Again'))
             console.log(error)
         }
     }
