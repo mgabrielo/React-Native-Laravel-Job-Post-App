@@ -126,8 +126,10 @@ const RegisterScreen = () => {
                             />
                         </View>
                     </View>
-                    <Pressable style={styles.button}
+                    <Pressable
+                        style={styles.button}
                         onPress={handleSubmit}
+                        disabled={loading}
                     >
                         <Spinner
                             visible={loading}

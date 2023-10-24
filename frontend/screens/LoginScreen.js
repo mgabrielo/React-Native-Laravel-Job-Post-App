@@ -121,7 +121,8 @@ const LoginScreen = () => {
                             />
                         </View>
                     </View>
-                    <Pressable style={styles.button}
+                    <Pressable
+                        style={styles.button}
                         onPress={handleSubmit}
                         disabled={loading}
                     >
@@ -135,6 +136,7 @@ const LoginScreen = () => {
                                 color: '#003580'
                             }}
                         />
+
                         <Text style={styles.buttonText}>
                             {loading ? 'Loading...' : 'Log In'}
                         </Text>

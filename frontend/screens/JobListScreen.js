@@ -10,6 +10,7 @@ import { signOutUserStart, signOutUserSuccess, signOutUserFailure } from '../red
 import { Entypo } from '@expo/vector-icons';
 import DialogBox from '../components/Dialog';
 import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const JobListScreen = () => {
   const navigation = useNavigation();
@@ -101,6 +102,7 @@ const JobListScreen = () => {
       }).then((res) => {
         if (res.data.status == 200) {
           dispatch(signOutUserSuccess())
+          AsyncStorage.clear()
           navigation.navigate('Login')
         }
       }).catch((err) => {
