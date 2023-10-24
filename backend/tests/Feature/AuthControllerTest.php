@@ -64,8 +64,7 @@ class AuthControllerTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         // Send a POST request to the '/api/logout' endpoint with the authentication token
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->post('/api/logout');
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/logout');
 
         $response->assertStatus(200);
     }

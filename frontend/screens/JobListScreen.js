@@ -10,6 +10,7 @@ import { signOutUserStart, signOutUserSuccess, signOutUserFailure } from '../red
 import { Entypo } from '@expo/vector-icons';
 import DialogBox from '../components/Dialog';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-toast-message';
 
 const JobListScreen = () => {
   const navigation = useNavigation();
@@ -40,7 +41,7 @@ const JobListScreen = () => {
         }
       }
     } catch (error) {
-      dispatch(newJobPostListFailure())
+      dispatch(newJobPostListFailure('Error Signing out, Connect to Network and Try Again'))
       console.log(error)
     }
   }
@@ -103,6 +104,10 @@ const JobListScreen = () => {
       }).then((res) => {
         if (res.data.status == 200) {
           dispatch(signOutUserSuccess())
+          Toast.show({
+            type: 'success',
+            text1: res.data.message
+          })
           navigation.navigate('Login')
         }
       }).catch((err) => {
@@ -111,7 +116,7 @@ const JobListScreen = () => {
       })
     } catch (error) {
       dispatch(signOutUserFailure('Error Signing out, Connect to Network and Try Again'))
-      console.log(error)
+      console.log(error.status)
     }
   }
 
