@@ -17,13 +17,15 @@ const JobCreateScreen = () => {
     const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL
     const { currentUser } = useSelector((state) => state.user)
     const { jobPostLoading, errorjobPost } = useSelector((state) => state.newJobPost)
+    const date = new Date();
+    const formattedDate = format(date, 'd-M-y');
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         salary: '',
         company: '',
-        postedAt: format(new Date(), 'd-M-y'),
+        postedAt: null,
         user_id: currentUser.user_id
     });
 
@@ -63,7 +65,7 @@ const JobCreateScreen = () => {
 
             dispatch(newJobPostAddStart())
             const authToken = currentUser.token
-            await axios.post(`${BASE_URL}/api/jobs`, formData, {
+            await axios.post(`${BASE_URL}/api/jobs`, { ...formData, postedAt: formattedDate }, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                     'Accept': 'application/json',
