@@ -89,6 +89,7 @@ const JobCreateScreen = () => {
             })
 
         } catch (error) {
+            dispatch(newJobPostAddFailure('Error Creating Job Post, Connect to Network And Try Again'))
             console.log(error)
         }
     }

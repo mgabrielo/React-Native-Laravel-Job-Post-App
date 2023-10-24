@@ -71,11 +71,12 @@ const LoginScreen = () => {
                         dispatch(signInFailure(data.message))
                     }
                 }).catch(() => {
-                    dispatch(signInFailure('Error Logging in'))
+                    dispatch(signInFailure('Error Logging in, Connect to NetWork and Try Again'))
                 })
             })
 
         } catch (error) {
+            dispatch(signInFailure('Error Logging in, Connect to NetWork and Try Again'))
             console.log(error)
         }
     }

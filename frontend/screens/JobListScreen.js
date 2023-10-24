@@ -110,6 +110,7 @@ const JobListScreen = () => {
         console.log(err)
       })
     } catch (error) {
+      dispatch(signOutUserFailure('Error Signing out, Connect to Network and Try Again'))
       console.log(error)
     }
   }
@@ -159,7 +160,7 @@ const JobListScreen = () => {
             <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('JobCreate')}>
               <Entypo name="plus" size={24} color="#fff" />
             </Pressable>
-            <Text style={styles.centerButtonText}>Tap Here to Create New Job Post</Text>
+            <Text style={styles.centerButtonText}>Add New Job Post</Text>
           </SafeAreaView>
         )
 

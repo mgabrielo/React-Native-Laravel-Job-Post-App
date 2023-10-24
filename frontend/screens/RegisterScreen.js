@@ -69,6 +69,7 @@ const RegisterScreen = () => {
             }
 
         } catch (error) {
+            dispatch(registerFailure('Error Signing up, Connect to Network and Try Again'))
             console.log(error)
         }
     }

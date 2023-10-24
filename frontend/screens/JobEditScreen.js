@@ -122,6 +122,7 @@ const JobEditScreen = () => {
             })
 
         } catch (error) {
+            dispatch(newJobPostUpdateFailure('Update Error, Connect to Network and Try Again'))
             console.log(error)
         }
     }

@@ -93,6 +93,7 @@ const JobDetailScreen = () => {
             }
 
         } catch (error) {
+            dispatch(newJobPostDeleteFailure('Delete Error, Connect to Network And Try Again'))
             console.log(error)
         }
     }
