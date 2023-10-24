@@ -46,6 +46,13 @@ const LoginScreen = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (formData.email == '' || formData.password == '') {
+                Toast.show({
+                    type: 'error',
+                    text1: 'All fields must be filled'
+                })
+                return;
+            }
             dispatch(signInStart())
             await axios.get(`${BASE_URL}/sanctum/csrf-cookie`).then(response => {
                 axios.post(`${BASE_URL}/api/login`, formData).then((res) => {

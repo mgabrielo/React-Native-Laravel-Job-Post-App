@@ -43,6 +43,13 @@ const RegisterScreen = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (formData.email == '' || formData.password == '' || formData.name == '') {
+                Toast.show({
+                    type: 'error',
+                    text1: 'All fields must be filled'
+                })
+                return;
+            }
             dispatch(registerStart())
             const res = await axios.post(`${BASE_URL}/api/register`, formData)
 
