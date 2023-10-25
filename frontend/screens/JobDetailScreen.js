@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
-import { format, parse } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { newJobPostDeleteFailure, newJobPostDeleteStart, newJobPostDeleteSuccess } from '../redux/newJobPost/newJobPostSlice';
 import DialogBox from '../components/Dialog';
@@ -100,7 +100,7 @@ const JobDetailScreen = () => {
     const convertDate = () => {
         if (job?.postedAt) {
             const inputDate = job?.postedAt
-            const parsedDate = parse(inputDate, 'yyyy-MM-dd', new Date());
+            const parsedDate = parseISO(inputDate);
             const outputDate = format(parsedDate, 'dd-MM-yyyy');
             return outputDate;
         }

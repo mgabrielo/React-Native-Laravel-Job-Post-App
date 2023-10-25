@@ -22,7 +22,7 @@ const JobCreateScreen = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const currentDate = new Date();
-    const formattedDate = format(selectedDate, 'd-M-y');
+    const formattedDate = format(selectedDate, 'dd-MM-yyyy');
 
     const [formData, setFormData] = useState({
         title: '',
@@ -88,6 +88,7 @@ const JobCreateScreen = () => {
                     });
                     dispatch(newJobPostAddSuccess(data))
                     setFormData({})
+                    setSelectedDate(new Date())
                     navigation.navigate('JobListTab')
                 }
             }).catch((err) => {
@@ -112,6 +113,7 @@ const JobCreateScreen = () => {
 
     const cancelJobPost = () => {
         setFormData({})
+        setSelectedDate(new Date())
         hideDialog()
         navigation.navigate('JobListTab')
     }
