@@ -1,4 +1,4 @@
-import { Button, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import { newJobPostAddFailure, newJobPostAddStart, newJobPostAddSuccess } from '
 import DialogBox from '../components/Dialog';
 import Toast from 'react-native-toast-message';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const JobCreateScreen = () => {
     const navigation = useNavigation();
@@ -186,11 +187,16 @@ const JobCreateScreen = () => {
                             />
                         </View>
                         <View>
-                            <Pressable style={styles.dateButton} onPress={showDatePicker} >
-                                <Text style={[styles.label, { color: '#fff', textAlign: 'center' }]}>
-                                    Selected Posting Date: {format(selectedDate, 'd-M-y')}
-                                </Text>
+                            <Text style={styles.label}>Choose Posting Date</Text>
+                            <Pressable onPress={showDatePicker} style={styles.dateButton}>
+                                <View style={styles.calenderView}>
+                                    <Text style={styles.calenderText}>
+                                        {format(selectedDate, 'd-M-y')}
+                                    </Text>
+                                    <FontAwesome5 name="calendar-alt" size={24} color="#003580" />
+                                </View>
                             </Pressable>
+
 
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
@@ -206,11 +212,11 @@ const JobCreateScreen = () => {
                     >
                         <Spinner
                             visible={jobPostLoading}
-                            color='#003580'
+                            color='#4682B4'
                             size={50}
                             textContent='Please Wait...'
                             textStyle={{
-                                fontSize: 20,
+                                fontSize: 25,
                                 color: '#003580'
                             }}
                         />
@@ -257,14 +263,14 @@ export default JobCreateScreen
 
 const styles = StyleSheet.create({
     input: {
-        fontSize: 16,
+        fontSize: 17,
         borderColor: "#003580",
         borderWidth: 1.5,
         borderRadius: 5,
         marginVertical: 10,
         width: 320,
         paddingVertical: 5,
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         textAlign: 'left',
         lineHeight: 25
     },
@@ -273,7 +279,7 @@ const styles = StyleSheet.create({
         width: 200,
         padding: 10,
         borderRadius: 5,
-        marginTop: 15,
+        marginTop: 10,
         marginBottom: 5,
         marginLeft: 'auto',
         marginRight: 'auto'
@@ -295,10 +301,28 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     dateButton: {
-        backgroundColor: '#003580',
+        width: '100%',
         marginVertical: 5,
         paddingVertical: 10,
-        borderRadius: 10
+        gap: 7,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    calenderView: {
+        width: 320,
+        gap: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        paddingVertical: 8,
+        paddingHorizontal: 15,
+        flexDirection: 'row',
+        borderWidth: 1.5,
+        borderColor: '#003580'
+    },
+    calenderText: {
+        fontSize: 17,
+        color: '#003580'
     },
     cancelPress: {
         width: 200,
@@ -324,6 +348,6 @@ const styles = StyleSheet.create({
     headerText: {
         color: '#003580',
         fontSize: 20,
-        fontWeight: '700'
+        fontWeight: '700',
     }
 })

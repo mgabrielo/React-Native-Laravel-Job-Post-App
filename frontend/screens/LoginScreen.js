@@ -130,11 +130,11 @@ const LoginScreen = () => {
                     >
                         <Spinner
                             visible={loading}
-                            color='#003580'
+                            color='#4682B4'
                             size={50}
                             textContent='Please Wait...'
                             textStyle={{
-                                fontSize: 20,
+                                fontSize: 25,
                                 color: '#003580'
                             }}
                         />
