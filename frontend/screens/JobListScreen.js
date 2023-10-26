@@ -21,14 +21,15 @@ const JobListScreen = () => {
   const [refresh, setRefresh] = useState(false);
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
-
+  const [page, setPage] = useState(1);
 
   const getJobs = async () => {
     try {
+
       if (jobPostLoading) {
         dispatch(newJobPostListStart())
         const authToken = currentUser.token
-        const res = await axios.get(`${BASE_URL}/api/jobs`, {
+        const res = await axios.get(`${BASE_URL}/api/jobs?page=${page}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           }
@@ -49,7 +50,7 @@ const JobListScreen = () => {
   useEffect(() => {
     getJobs()
     setRefresh(!refresh);
-  }, [newJobPost])
+  }, [newJobPost, page])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -157,6 +158,8 @@ const JobListScreen = () => {
               renderItem={({ item }) => <JobPostItem item={item} />}
               showsVerticalScrollIndicator={false}
               extraData={refresh}
+              onEndReached={() => setPage(page + 1)}
+              onEndReachedThreshold={0.1}
             />
           </View>
         ) : (

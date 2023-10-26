@@ -13,7 +13,7 @@ class JobPostController extends Controller
 {
     public function alljobs()
     {
-        $jobpost = JobPost::orderBy('postedAt', 'DESC')->get();
+        $jobpost = JobPost::paginate(10)->orderBy('postedAt', 'desc')->get();
 
         if (!$jobpost) {
             return response()->json([
@@ -117,6 +117,7 @@ class JobPostController extends Controller
                     $jobpost->description = $request->input('description');
                     $jobpost->salary = $request->input('salary');
                     $jobpost->company = $request->input('company');
+                    // $jobpost->postedAt = \DateTime::createFromFormat('d-m-Y', $request->input('postedAt'))->format('Y-m-d');
                     $jobpost->postedAt = $request->input('postedAt');
                     $jobpost->save();
                     return response()->json([
