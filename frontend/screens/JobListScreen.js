@@ -23,7 +23,7 @@ const JobListScreen = () => {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
   const [page, setPage] = useState(1);
-  console.log(newJobPost)
+
   const getJobs = async () => {
     try {
 
