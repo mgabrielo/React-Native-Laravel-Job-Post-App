@@ -11,6 +11,7 @@ import { Entypo } from '@expo/vector-icons';
 import DialogBox from '../components/Dialog';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-toast-message';
+import { persistor } from '../redux/store';
 
 const JobListScreen = () => {
   const navigation = useNavigation();
@@ -22,7 +23,7 @@ const JobListScreen = () => {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
   const [page, setPage] = useState(1);
-
+  console.log(newJobPost)
   const getJobs = async () => {
     try {
 
