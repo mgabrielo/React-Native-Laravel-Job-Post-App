@@ -11,7 +11,6 @@ import { Entypo } from '@expo/vector-icons';
 import DialogBox from '../components/Dialog';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-toast-message';
-import { persistor } from '../redux/store';
 
 const JobListScreen = () => {
   const navigation = useNavigation();
@@ -19,7 +18,6 @@ const JobListScreen = () => {
 
   const { currentUser, loading } = useSelector((state) => state.user)
   const { newJobPost, jobPostLoading } = useSelector((state) => state.newJobPost)
-  const [refresh, setRefresh] = useState(false);
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
   const [page, setPage] = useState(1);
@@ -50,8 +48,7 @@ const JobListScreen = () => {
 
   useEffect(() => {
     getJobs()
-    setRefresh(!refresh);
-  }, [newJobPost, page])
+  }, [newJobPost])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -77,7 +74,6 @@ const JobListScreen = () => {
             color="white"
             style={{ marginRight: 10, marginBottom: 10 }}
           />
-
         </Pressable>
       )
     })
@@ -158,7 +154,6 @@ const JobListScreen = () => {
               keyExtractor={(item, index) => item + index}
               renderItem={({ item }) => <JobPostItem item={item} />}
               showsVerticalScrollIndicator={false}
-              extraData={refresh}
               onEndReached={() => setPage(page + 1)}
               onEndReachedThreshold={0.1}
             />
