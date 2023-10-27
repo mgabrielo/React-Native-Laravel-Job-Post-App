@@ -48,7 +48,7 @@ const JobListScreen = () => {
 
   useEffect(() => {
     getJobs()
-  }, [newJobPost])
+  }, [newJobPost, page])
 
   useLayoutEffect(() => {
     navigation.setOptions({
