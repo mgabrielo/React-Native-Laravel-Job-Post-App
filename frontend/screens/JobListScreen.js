@@ -18,14 +18,14 @@ const JobListScreen = () => {
   const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL
 
   const { currentUser, loading } = useSelector((state) => state.user)
-  const { newJobPost } = useSelector((state) => state.newJobPost)
+  const { newJobPost, jobPostLoading } = useSelector((state) => state.newJobPost)
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     getJobs()
-  }, [page])
+  }, [])
 
   const getJobs = async () => {
     try {
@@ -40,7 +40,7 @@ const JobListScreen = () => {
       const data = await res.data
       if (data.status == 200) {
         dispatch(newJobPostListSuccess(data.jobpost.data));
-      } else if (data.status == 404 && newJobPost.length < 1) {
+      } else if (data.status == 404 && data?.jobpost?.data.length < 1) {
         dispatch(newJobPostListFailure())
         Toast.show({
           type: 'error',
@@ -155,7 +155,7 @@ const JobListScreen = () => {
       )
       }
       {
-        newJobPost && newJobPost.length > 0 ? (
+        !jobPostLoading && newJobPost && newJobPost.length > 0 ? (
           <View style={{ paddingHorizontal: 7, marginVertical: 4 }}>
             <FlatList
               data={newJobPost}
