@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class JobPostController extends Controller
 {
     public function alljobs()
     {
-        $jobpost = JobPost::paginate(10)->orderBy('postedAt', 'desc')->get();
+        $jobpost = JobPost::orderBy('postedAt', 'desc')->paginate(10);
 
-        if (!$jobpost) {
+        if ($jobpost->isEmpty()) {
             return response()->json([
                 'status' => 404,
                 'message' => 'No JobPost Available'

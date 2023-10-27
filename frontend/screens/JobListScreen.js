@@ -11,44 +11,52 @@ import { Entypo } from '@expo/vector-icons';
 import DialogBox from '../components/Dialog';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-toast-message';
+import { persistor } from '../redux/store';
 
 const JobListScreen = () => {
   const navigation = useNavigation();
   const BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL
 
   const { currentUser, loading } = useSelector((state) => state.user)
-  const { newJobPost, jobPostLoading } = useSelector((state) => state.newJobPost)
+  const { newJobPost } = useSelector((state) => state.newJobPost)
   const [isDialogVisible, setDialogVisible] = useState(false);
   const dispatch = useDispatch()
   const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    getJobs()
+  }, [page])
+
   const getJobs = async () => {
     try {
 
-      if (jobPostLoading) {
-        dispatch(newJobPostListStart())
-        const authToken = currentUser.token
-        const res = await axios.get(`${BASE_URL}/api/jobs?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          }
-        })
-        const data = await res.data
-        if (data.status == 200) {
-          dispatch(newJobPostListSuccess(data.jobpost));
-        } else {
-          dispatch(newJobPostListFailure())
+      dispatch(newJobPostListStart())
+      const authToken = currentUser.token
+      const res = await axios.get(`${BASE_URL}/api/jobs?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
         }
+      })
+      const data = await res.data
+      if (data.status == 200) {
+        dispatch(newJobPostListSuccess(data.jobpost.data));
+      } else if (data.status == 404 && newJobPost.length < 1) {
+        dispatch(newJobPostListFailure())
+        Toast.show({
+          type: 'error',
+          text1: data?.message
+        })
+      } else {
+        dispatch(newJobPostListFailure())
       }
+
     } catch (error) {
       dispatch(newJobPostListFailure('Error Signing out, Connect to Network and Try Again'))
       console.log(error)
     }
   }
 
-  useEffect(() => {
-    getJobs()
-  }, [newJobPost, page])
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -106,6 +114,7 @@ const JobListScreen = () => {
             type: 'success',
             text1: res.data.message
           })
+          persistor.purge()
           navigation.navigate('Login')
         }
       }).catch((err) => {
@@ -132,9 +141,9 @@ const JobListScreen = () => {
           />
         )
       }
-      {jobPostLoading || loading && (
+      {loading && (
         <Spinner
-          visible={jobPostLoading || loading}
+          visible={loading}
           color='#4682B4'
           size={50}
           textContent='Please Wait...'

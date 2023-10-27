@@ -17,6 +17,7 @@ const newJobPostSlice = createSlice({
         newJobPostListSuccess: (state, action) => {
             state.newJobPost = action.payload
             state.jobPostLoading = false
+            errorjobPost = null
         },
         newJobPostListFailure: (state, action) => {
             state.jobPostLoading = false
